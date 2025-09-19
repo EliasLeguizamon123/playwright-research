@@ -14,12 +14,12 @@ Este proyecto implementa un sistema de autenticación simple con Next.js que inc
 
 1. **Instalar dependencias** (si no están instaladas):
    ```bash
-   npm install
+   pnpm install
    ```
 
 2. **Ejecutar el servidor de desarrollo**:
    ```bash
-   npm run dev
+   pnpm dev
    ```
 
 3. **Abrir en el navegador**:
@@ -84,9 +84,79 @@ app/
 - **React 19.1.0** - Biblioteca de UI
 - **Tailwind CSS 4** - Framework de CSS
 - **TypeScript** - Tipado estático
+- **Playwright 1.55.0** - Testing E2E automatizado
 - **localStorage** - Persistencia de sesión
 
-## 🧪 Cómo probar
+## 🧪 Testing con Playwright
+
+### 📋 Tests Automatizados E2E
+
+Este proyecto incluye tests end-to-end automatizados con **Playwright** para garantizar el correcto funcionamiento del sistema de autenticación.
+
+### 🚀 Comandos de Testing
+
+```bash
+# Instalar navegadores de Playwright (solo la primera vez)
+pnpm test:install
+
+# Ejecutar todos los tests E2E
+pnpm test:e2e
+
+# Ejecutar tests con interfaz visual (headed mode)
+pnpm test:e2e:headed
+
+# Ejecutar tests con interfaz UI interactiva
+pnpm test:e2e:ui
+
+# Ver reporte de tests ejecutados
+pnpm test:e2e:report
+
+# Ejecutar tests en modo debug
+pnpm test:e2e:debug
+
+# Ejecutar tests específicos
+pnpm test:login        # Solo tests de login
+pnpm test:auth         # Solo tests de flujo de autenticación
+pnpm test:dashboard    # Solo tests del dashboard
+```
+
+### 🔍 Tests Implementados
+
+#### **Login Tests** (`tests/login.spec.ts`)
+- ✅ **Redirección automática**: Verifica que `/` redirige a `/login`
+- ✅ **Elementos del formulario**: Valida que todos los campos estén presentes
+- ✅ **Placeholders correctos**: Verifica textos de ayuda en los campos
+- ✅ **Estado inicial**: Botón deshabilitado hasta completar campos
+- ✅ **Login exitoso**: Redirección al dashboard con credenciales válidas
+
+#### **Configuración de Tests**
+- **Navegadores**: Chrome, Firefox, Safari (WebKit)
+- **Servidor automático**: Inicia `pnpm dev` automáticamente
+- **Limpieza**: localStorage se limpia antes de cada test
+- **Timeouts**: Configurados para desarrollo local
+- **Reportes**: HTML report generado automáticamente
+
+### 📊 Cobertura de Tests
+
+Los tests cubren los siguientes escenarios:
+
+1. **Flujo de autenticación completo**
+2. **Validaciones de formulario**
+3. **Redirecciones automáticas**
+4. **Protección de rutas**
+5. **Manejo de estado de sesión**
+6. **Interfaz de usuario responsive**
+
+### 🔧 Configuración Playwright
+
+El archivo `playwright.config.ts` incluye:
+- **Base URL**: `http://localhost:3000`
+- **Paralelización**: Tests en paralelo para mayor velocidad
+- **Retry**: Reintentos automáticos en CI/CD
+- **Traces**: Captura de trazas en fallos para debugging
+- **Web Server**: Inicio automático del servidor de desarrollo
+
+## 🧪 Cómo probar manualmente
 
 1. **Acceder a la aplicación**: Automáticamente te llevará al login
 2. **Probar credenciales incorrectas**: Verás mensajes de error
