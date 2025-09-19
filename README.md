@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sistema de Autenticación - Next.js
 
-## Getting Started
+## 📋 Descripción
 
-First, run the development server:
+Este proyecto implementa un sistema de autenticación simple con Next.js que incluye:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Página de Login** (`/login`) - Primera vista que se muestra siempre
+- **Dashboard/Home** (`/`) - Vista protegida que requiere autenticación
+- **Validaciones de formulario** con manejo de errores
+- **Credenciales hardcodeadas**: `admin` / `admin`
+- **Redirección automática** al login si no está autenticado
+
+## 🚀 Cómo ejecutar la aplicación
+
+1. **Instalar dependencias** (si no están instaladas):
+   ```bash
+   npm install
+   ```
+
+2. **Ejecutar el servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Abrir en el navegador**:
+   ```
+   http://localhost:3000
+   ```
+
+## 🔐 Credenciales de acceso
+
+- **Usuario**: `admin`
+- **Contraseña**: `admin`
+
+## 📁 Estructura del proyecto
+
+```
+app/
+├── components/
+│   └── ProtectedRoute.tsx     # Componente para proteger rutas
+├── hooks/
+│   └── useAuth.ts            # Hook personalizado para autenticación
+├── login/
+│   └── page.tsx              # Página de login
+├── layout.tsx                # Layout principal
+├── page.tsx                  # Dashboard/Home (ruta protegida)
+└── globals.css               # Estilos globales
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Características implementadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔑 Página de Login (`/login`)
+- Formulario con campos de usuario y contraseña
+- Validaciones en tiempo real:
+  - Campo usuario requerido
+  - Campo contraseña requerido (mínimo 3 caracteres)
+- Manejo de errores de autenticación
+- Estado de carga durante el login
+- Diseño responsive con Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🏠 Dashboard/Home (`/`)
+- Vista protegida que requiere autenticación
+- Header con información del usuario y botón de logout
+- Dashboard con tarjetas informativas
+- Información del sistema en tiempo real
+- Botón de cerrar sesión
 
-## Learn More
+### 🛡️ Sistema de Protección
+- **Hook `useAuth`**: Maneja el estado de autenticación
+- **Componente `ProtectedRoute`**: Protege rutas que requieren autenticación
+- **Redirección automática**: Si no está autenticado, redirige al login
+- **Persistencia**: Usa localStorage para mantener la sesión
 
-To learn more about Next.js, take a look at the following resources:
+## 🔄 Flujo de la aplicación
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Acceso inicial**: Siempre redirige a `/login`
+2. **Login exitoso**: Redirige a `/` (dashboard)
+3. **Acceso directo a `/`**: Si no está autenticado, redirige a `/login`
+4. **Logout**: Limpia la sesión y redirige a `/login`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Tecnologías utilizadas
 
-## Deploy on Vercel
+- **Next.js 15.5.3** - Framework de React
+- **React 19.1.0** - Biblioteca de UI
+- **Tailwind CSS 4** - Framework de CSS
+- **TypeScript** - Tipado estático
+- **localStorage** - Persistencia de sesión
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧪 Cómo probar
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Acceder a la aplicación**: Automáticamente te llevará al login
+2. **Probar credenciales incorrectas**: Verás mensajes de error
+3. **Login exitoso**: Usa `admin`/`admin` para acceder al dashboard
+4. **Probar protección de rutas**: Intenta acceder directamente a `/` sin estar logueado
+5. **Logout**: Usa el botón "Cerrar Sesión" para salir
+
+## 📝 Validaciones implementadas
+
+- **Usuario requerido**: No puede estar vacío
+- **Contraseña requerida**: Mínimo 3 caracteres
+- **Credenciales válidas**: Solo `admin`/`admin` permite el acceso
+- **Manejo de errores**: Mensajes claros para el usuario
+
+## 🔧 Personalización
+
+Para cambiar las credenciales, edita el archivo `app/login/page.tsx` en la línea:
+```typescript
+if (username === 'admin' && password === 'admin') {
+```
+
+Para agregar más usuarios o lógica de autenticación, modifica el hook `useAuth.ts`.
